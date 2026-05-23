@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maa Jagdamba Jewellers</title>
+
+<meta name="description" content="Maa Jagdamba Jewellers - Gold, Silver & Diamond Jewellery Shop">
+<meta name="keywords" content="gold, silver, jewellery, maa jagdamba jewellers">
+<meta name="author" content="Sanjay Kumar Verma">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0d0d0d;
+color:white;
+}
+
+/* HEADER */
+header{
+background:linear-gradient(gold,#b8860b);
+color:black;
+text-align:center;
+padding:20px;
+}
+
+/* NAV */
+nav{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+background:#1c1c1c;
+padding:10px;
+position:sticky;
+top:0;
+}
+
+nav a{
+color:white;
+margin:10px;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* SECTIONS */
+section{
+padding:20px;
+}
+
+/* BUTTON */
+.btn{
+display:inline-block;
+padding:10px 15px;
+margin:5px;
+background:gold;
+color:black;
+text-decoration:none;
+border-radius:5px;
+font-weight:bold;
+}
+
+/* GALLERY */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:10px;
+}
+
+.grid img{
+width:100%;
+border-radius:10px;
+border:2px solid gold;
+}
+
+/* CHAT */
+#chatbox{
+background:#1c1c1c;
+height:200px;
+overflow:auto;
+padding:10px;
+border-radius:10px;
+}
+
+/* INPUT */
+input,textarea{
+width:80%;
+padding:10px;
+margin-top:5px;
+}
+
+/* REVIEW */
+.review{
+background:#1c1c1c;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:20px;
+background:#111;
+}
+
+/* FLOAT WHATSAPP */
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:15px;
+border-radius:50px;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>💎 Maa Jagdamba Jewellers</h1>
+<p>Owner: Sanjay Kumar Verma</p>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#gallery">Gallery</a>
+<a href="#gold">Gold Rate</a>
+<a href="#reviews">Reviews</a>
+<a href="#contact">Contact</a>
+<a href="#ai">AI Chat</a>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+<h2>Welcome to Premium Jewellery Store</h2>
+
+<a class="btn" href="tel:+919199802116">📞 Call 1</a>
+<a class="btn" href="tel:+917979745778">📞 Call 2</a>
+
+<a class="btn" href="https://wa.me/919199802116?text=Hello%20I%20want%20information">💬 WhatsApp 1</a>
+<a class="btn" href="https://wa.me/917979745778?text=Hello%20I%20want%20information">💬 WhatsApp 2</a>
+
+<br><br>
+
+<iframe
+src="https://www.google.com/maps/embed?pb=!1m18..."
+width="100%" height="300"></iframe>
+
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+<h2>Jewellery Gallery</h2>
+<div class="grid" id="galleryBox"></div>
+</section>
+
+<!-- GOLD RATE -->
+<section id="gold">
+<h2>Live Gold Rate 💰</h2>
+<h3 id="goldRate">Loading...</h3>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+<h2>Customer Reviews ⭐</h2>
+
+<div class="review">Best jewellery shop - Rahul</div>
+<div class="review">Very trusted shop - Priya</div>
+
+<h3>Add Review</h3>
+<input id="name" placeholder="Name"><br>
+<textarea id="msg" placeholder="Review"></textarea><br>
+<button onclick="addReview()" class="btn">Submit</button>
+
+<div id="newReviews"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact</h2>
+<p>Email: maajagdamabajewellers@gmail.com</p>
+</section>
+
+<!-- AI CHAT -->
+<section id="ai">
+<h2>AI Assistant 🤖</h2>
+
+<div id="chatbox"></div><br>
+
+<input id="user" placeholder="Ask anything...">
+<button onclick="chat()">Send</button>
+</section>
+
+<!-- FLOAT WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/919199802116?text=Hello%20Maa%20Jagdamba%20Jewellers">WhatsApp</a>
+
+<footer>
+© 2026 Maa Jagdamba Jewellers
+</footer>
+
+<script>
+
+/* ================= REAL GOLD RATE API ================= */
+async function getGoldRate(){
+try{
+let res = await fetch("https://api.metals.live/v1/spot/gold");
+let data = await res.json();
+
+let usdToInr = 83;
+let ounceTo10g = 0.3215;
+
+let price = Math.round(data[0].gold * usdToInr * ounceTo10g);
+
+document.getElementById("goldRate").innerText =
+"💰 24K Gold Rate: ₹ " + price + " / 10g";
+
+}
+catch(e){
+document.getElementById("goldRate").innerText =
+"Fallback Gold Rate: ₹ 65000 / 10g";
+}
+}
+getGoldRate();
+setInterval(getGoldRate,60000);
+
+
+/* ================= AI CHAT ================= */
+function chat(){
+let input=document.getElementById("user").value.toLowerCase();
+let box=document.getElementById("chatbox");
+
+let reply="";
+
+if(input.includes("hi")){
+reply="Hello 👋 Welcome to Maa Jagdamba Jewellers";
+}
+else if(input.includes("owner")){
+reply="Owner: Sanjay Kumar Verma";
+}
+else if(input.includes("gold")){
+reply=document.getElementById("goldRate").innerText;
+}
+else{
+reply="I can help with shop info only 🤖";
+}
+
+box.innerHTML+="<p><b>You:</b> "+input+"</p>";
+box.innerHTML+="<p><b>AI:</b> "+reply+"</p>";
+}
+
+
+/* ================= REVIEWS ================= */
+function addReview(){
+let name=document.getElementById("name").value;
+let msg=document.getElementById("msg").value;
+
+document.getElementById("newReviews").innerHTML +=
+"<div class='review'>💬 "+msg+" - "+name+"</div>";
+}
+
+
+/* ================= SAMPLE GALLERY ================= */
+let images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg"];
+
+let box=document.getElementById("galleryBox");
+
+images.forEach(img=>{
+let i=document.createElement("img");
+i.src=img;
+box.appendChild(i);
+});
+
+</script>
+
+</body>
+</html>
